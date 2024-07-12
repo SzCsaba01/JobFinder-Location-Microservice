@@ -7,18 +7,20 @@ using Xunit;
 
 public class RepositoryTests
 {
-    private DataContext GetInMemoryDataContext()
+    private readonly DbContextOptions<DataContext> _contextOptions;
+
+    public RepositoryTests()
     {
-        var options = new DbContextOptionsBuilder<DataContext>()
+        _contextOptions = new DbContextOptionsBuilder<DataContext>()
             .UseInMemoryDatabase(Guid.NewGuid().ToString())
             .Options;
-        return new DataContext(options);
     }
+
 
     [Fact]
     public async Task CityRepository_GetCitiesByCityNameAsync_ReturnsCities()
     {
-        using var context = GetInMemoryDataContext();
+        using var context = new DataContext(_contextOptions);
         context.Cities.Add(new CityEntity
         {
             Name = "TestCity",
@@ -47,7 +49,7 @@ public class RepositoryTests
     [Fact]
     public async Task CountryRepository_GetCountriesByCountryNameAsync_ReturnsCountries()
     {
-        using var context = GetInMemoryDataContext();
+        using var context = new DataContext(_contextOptions);
         context.Countries.Add(new CountryEntity
         {
             Name = "TestCountry",
@@ -67,7 +69,7 @@ public class RepositoryTests
     [Fact]
     public async Task RegionRepository_GetRegionsByRegionNameAsync_ReturnsRegions()
     {
-        using var context = GetInMemoryDataContext();
+        using var context = new DataContext(_contextOptions);
         context.Regions.Add(new RegionEntity { Name = "TestRegion" });
         await context.SaveChangesAsync();
 
@@ -81,7 +83,7 @@ public class RepositoryTests
     [Fact]
     public async Task StateRepository_GetStatesByStateNameAsync_ReturnsStates()
     {
-        using var context = GetInMemoryDataContext();
+        using var context = new DataContext(_contextOptions);
         context.States.Add(new StateEntity
         {
             Name = "TestState",
@@ -106,7 +108,7 @@ public class RepositoryTests
     [Fact]
     public async Task SubRegionRepository_GetSubRegionsByNames_ReturnsSubRegions()
     {
-        using var context = GetInMemoryDataContext();
+        using var context = new DataContext(_contextOptions);
         context.SubRegions.Add(new SubRegionEntity { Name = "TestSubRegion", Region = new RegionEntity { Name = "TestRegion" } });
         await context.SaveChangesAsync();
 
@@ -120,7 +122,7 @@ public class RepositoryTests
     [Fact]
     public async Task CityRepository_GetCitiesByNamesAsync_ReturnsCities()
     {
-        using var context = GetInMemoryDataContext();
+        using var context = new DataContext(_contextOptions);
         context.Cities.Add(new CityEntity
         {
             Name = "City1",
@@ -149,7 +151,7 @@ public class RepositoryTests
     [Fact]
     public async Task CountryRepository_GetCountriesByNamesAsync_ReturnsCountries()
     {
-        using var context = GetInMemoryDataContext();
+        using var context = new DataContext(_contextOptions);
         context.Countries.Add(new CountryEntity
         {
             Name = "Country1",
@@ -169,7 +171,7 @@ public class RepositoryTests
     [Fact]
     public async Task StateRepository_GetStatesByNamesAsync_ReturnsStates()
     {
-        using var context = GetInMemoryDataContext();
+        using var context = new DataContext(_contextOptions);
         context.States.Add(new StateEntity
         {
             Name = "State1",
@@ -194,7 +196,7 @@ public class RepositoryTests
     [Fact]
     public async Task RegionRepository_GetRegionsByNames_ReturnsRegions()
     {
-        using var context = GetInMemoryDataContext();
+        using var context = new DataContext(_contextOptions);
         context.Regions.Add(new RegionEntity { Name = "Region1" });
         await context.SaveChangesAsync();
 
@@ -208,7 +210,7 @@ public class RepositoryTests
     [Fact]
     public async Task CityRepository_GetCitiesByStateAndCityNamesAsync_ReturnsCities()
     {
-        using var context = GetInMemoryDataContext();
+        using var context = new DataContext(_contextOptions);
         context.Cities.Add(new CityEntity
         {
             Name = "City1",
@@ -237,7 +239,7 @@ public class RepositoryTests
     [Fact]
     public async Task CityRepository_GetCitiesByCityAndCountryNamesAsync_ReturnsCities()
     {
-        using var context = GetInMemoryDataContext();
+        using var context = new DataContext(_contextOptions);
         context.Cities.Add(new CityEntity
         {
             Name = "City1",
@@ -266,7 +268,7 @@ public class RepositoryTests
     [Fact]
     public async Task CityRepository_GetCitiesByCountryAndStateAndCityNamesAsync_ReturnsCities()
     {
-        using var context = GetInMemoryDataContext();
+        using var context = new DataContext(_contextOptions);
         context.Cities.Add(new CityEntity
         {
             Name = "City1",
@@ -295,7 +297,7 @@ public class RepositoryTests
     [Fact]
     public async Task CountryRepository_GetCountryByRegionAndCountryNameAsync_ReturnsCountries()
     {
-        using var context = GetInMemoryDataContext();
+        using var context = new DataContext(_contextOptions);
         context.Countries.Add(new CountryEntity
         {
             Name = "Country1",
@@ -315,7 +317,7 @@ public class RepositoryTests
     [Fact]
     public async Task RegionRepository_GetRegionByCountryIso2CodeAsync_ReturnsRegion()
     {
-        using var context = GetInMemoryDataContext();
+        using var context = new DataContext(_contextOptions);
         context.Countries.Add(new CountryEntity
         {
             Name = "Country1",

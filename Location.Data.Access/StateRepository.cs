@@ -37,7 +37,7 @@ public class StateRepository : IStateRepository
     public async Task<List<StateEntity>> GetStatesByCountryAndStateNamesAsync(ICollection<CountryStateCityRegionDto> countryStateCityRegionEntities)
     {
         var stateNames = countryStateCityRegionEntities.Select(x => x.State).ToList();
-        
+
         var states = await _dataContext.States
             .Where(state => stateNames.Contains(state.Name) || stateNames.Contains(state.StateCode))
             .Include(state => state.Country)

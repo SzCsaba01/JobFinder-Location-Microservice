@@ -21,7 +21,7 @@ public class StateController : ControllerBase
         return Ok(states);
     }
 
-    [HttpPost("GetStateByRegionAndStateName")]
+    [HttpPost("GetCountryStateCityRegionByNames")]
     public async Task<IActionResult> GetStateByRegionAndStateNameAsync([FromBody] ICollection<CountryStateCityRegionDto> countryStateCityRegionDto)
     {
         var state = await _stateService.GetStatesByCountryAndStateNamesAsync(countryStateCityRegionDto);

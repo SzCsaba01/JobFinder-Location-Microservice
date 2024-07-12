@@ -1,6 +1,6 @@
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /app 
-EXPOSE 80
+EXPOSE 443
 
 COPY *.sln .
 COPY Location.Microservice/*.csproj ./Location.Microservice/
@@ -19,6 +19,8 @@ COPY Location.Data.Access/. ./Location.Data.Access/
 COPY Location.Data.Contracts/. ./Location.Data.Contracts/
 COPY Location.Data.Object/. ./Location.Data.Object/
 
+COPY localhost.pfx /certificate/
+
 WORKDIR /app/Location.Microservice
 RUN dotnet build ./Location.Microservice.csproj -c Release -o /app/build
 
@@ -28,6 +30,8 @@ RUN dotnet publish ./Location.Microservice.csproj -c Release -o /app/publish
 
 FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS final
 WORKDIR /app 
+
+COPY --from=publish /certificate/localhost.pfx /app/certificate/
 COPY --from=publish /app/publish .
 
 ENTRYPOINT ["dotnet", "Location.Microservice.dll"]

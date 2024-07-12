@@ -21,8 +21,8 @@ public static class ServiceExtensions
         services.AddScoped<IStateService, StateService>();
         services.AddScoped<ICityService, CityService>();
 
-        var userMicroserviceUrl = Environment.GetEnvironmentVariable("USER_MICROSERVICE_URL") ?? "http://user-microservice";
-        var jobMicroserviceUrl = Environment.GetEnvironmentVariable("JOB_MICROSERVICE_URL") ?? "http://job-microservice";
+        var userMicroserviceUrl = Environment.GetEnvironmentVariable("USER_MICROSERVICE_URL") ?? "https://localhost:5278";
+        var jobMicroserviceUrl = Environment.GetEnvironmentVariable("JOB_MICROSERVICE_URL") ?? "https://localhost:5130";
 
         services.AddCors(options =>
         {
